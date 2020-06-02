@@ -17,7 +17,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Employee {
+public class
+Employee {
     //GD id
     @Id
     private String id;
