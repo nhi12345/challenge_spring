@@ -26,10 +26,12 @@ public class Challenge {
 
     private String pictureUrl;
 
+    private String content;
+
     private LocalDate startDate;
 
     private LocalDate endDate;
 
     @DBRef(lazy = true)
-    private List<Employee> users = new ArrayList<>();
+    private List<Employee> employees = new ArrayList<>();
 }
