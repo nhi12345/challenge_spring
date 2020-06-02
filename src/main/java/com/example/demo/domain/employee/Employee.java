@@ -43,7 +43,7 @@ Employee {
     private String nickname;
 
     //GD primaryEmail
-    @Indexed
+    @Indexed(unique = true)
     private String email;
 
     private String pictureUrl;

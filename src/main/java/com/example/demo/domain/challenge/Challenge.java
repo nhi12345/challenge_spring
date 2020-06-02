@@ -7,8 +7,8 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 @Document(collection = "challenges")
@@ -26,9 +26,9 @@ public class Challenge {
 
     private String pictureUrl;
 
-    private Date startDate;
+    private LocalDate startDate;
 
-    private Date endDate;
+    private LocalDate endDate;
 
     @DBRef(lazy = true)
     private List<Employee> users = new ArrayList<>();
