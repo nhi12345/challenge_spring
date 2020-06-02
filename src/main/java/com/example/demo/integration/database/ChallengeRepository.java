@@ -1,6 +1,6 @@
 package com.example.demo.integration.database;
 
-import com.example.demo.domain.Challenge;
+import com.example.demo.domain.challenge.Challenge;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
