@@ -3,6 +3,7 @@ package com.example.demo.domain.challenge;
 import com.example.demo.domain.employee.Employee;
 import lombok.*;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -20,6 +21,7 @@ public class Challenge {
     @Id
     private String id;
 
+    @Indexed(unique = true)
     private String title;
 
     private String pictureUrl;
