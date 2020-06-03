@@ -1,7 +1,11 @@
 package com.example.demo.rest.challenge;
 
+import com.example.demo.domain.challenge.Challenge;
+import com.example.demo.domain.challenge.ChallengeService;
+import com.example.demo.rest.challenge.vm.ChallengeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,11 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api")
+@RequestMapping("/api/v1/challenge")
 public class ChallengeResource {
+
+    @Autowired
+    private ChallengeService service;
+
+    @Autowired
+    private ChallengeMapper challengeMapper;
+
     @GetMapping
-    public String test(){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication.getName();
+    public ChallengeDto getChallenge(){
+        return challengeMapper.toGroupDto(service.findOne());
     }
 }

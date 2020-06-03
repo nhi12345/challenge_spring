@@ -26,12 +26,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
         Optional<Employee> employee = employeeRepository.findByEmail(email);
-        if(!employee.isPresent()){
-            System.out.println("User not found!");
-        }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEES"));
-        return new org.springframework.security.core.userdetails.User(
-                email,email, grantedAuthorities);
-    }
+        if(employee.isPresent()){
+//            grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEES"));
+            return new org.springframework.security.core.userdetails.User(
+                    email,email, grantedAuthorities);
+        }
+        return null;
+        }
 }
