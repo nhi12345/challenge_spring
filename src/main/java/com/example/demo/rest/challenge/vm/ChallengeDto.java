@@ -17,5 +17,5 @@ public class ChallengeDto {
     private String content;
     private LocalDate startDate;
     private LocalDate endDate;
-    private int joined;
+    private int peopleJoining;
 }
