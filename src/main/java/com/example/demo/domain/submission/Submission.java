@@ -7,7 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Document(collection = "submissions")
 @Data
@@ -27,7 +27,7 @@ public class Submission {
 
     private long duration;
 
-    private Date dateCreate;
+    private LocalDate dateCreate;
 
     private Employee employee;
 

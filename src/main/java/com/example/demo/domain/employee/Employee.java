@@ -8,6 +8,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -43,7 +44,7 @@ Employee {
     private String nickname;
 
     //GD primaryEmail
-    @Indexed
+    @Indexed(unique = true)
     private String email;
 
     private String pictureUrl;
@@ -58,10 +59,10 @@ Employee {
     private String locationCode;
 
     //GD phones
-    private Set<Phone> phones;
+    private Set<Phone> phones = new HashSet<>();
 
     //GD addresses
-    private Set<Address> addresses;
+    private Set<Address> addresses = new HashSet<>();
 
     @Transient
     private boolean isFavorite;
@@ -80,6 +81,20 @@ Employee {
             this.type = type;
             this.value = value;
         }
+    }
+
+    public Employee(String trigram, String familyName, String fullName, String givenName, String nickname, String email, String pictureUrl, String title, String location, String locationCode, boolean isFavorite) {
+        this.trigram = trigram;
+        this.familyName = familyName;
+        this.fullName = fullName;
+        this.givenName = givenName;
+        this.nickname = nickname;
+        this.email = email;
+        this.pictureUrl = pictureUrl;
+        this.title = title;
+        this.location = location;
+        this.locationCode = locationCode;
+        this.isFavorite = isFavorite;
     }
 
     @Getter
