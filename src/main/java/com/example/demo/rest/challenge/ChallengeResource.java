@@ -2,6 +2,7 @@ package com.example.demo.rest.challenge;
 
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
+import com.example.demo.rest.challenge.vm.ChallengeDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +22,11 @@ public class ChallengeResource {
     @Autowired
     private ChallengeService service;
 
+    @Autowired
+    private ChallengeMapper challengeMapper;
+
     @GetMapping
-    public Challenge getChallenge(){
-        return service.findOne();
+    public ChallengeDto getChallenge(){
+        return challengeMapper.toGroupDto(service.findOne());
     }
 }
