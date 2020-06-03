@@ -27,9 +27,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Optional<Employee> employee = employeeRepository.findByEmail(email);
         if(!employee.isPresent()){
-            throw new UsernameNotFoundException("not found");
+            System.out.println("User not found!");
         }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+        grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_EMPLOYEES"));
         return new org.springframework.security.core.userdetails.User(
                 email,email, grantedAuthorities);
     }

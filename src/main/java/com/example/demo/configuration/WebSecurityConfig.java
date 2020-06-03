@@ -20,21 +20,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements WebMvcConfigurer {
 
-//    @Autowired
-//    @Qualifier("userDetail")
-//    private UserDetailsService userDetailsService;
+    @Autowired
+    @Qualifier("userDetail")
+    private UserDetailsService userDetailsService;
 
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-//
-//    @Autowired
-//    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(userDetailsService)
-//                .passwordEncoder(encoder());
-//    }
+
+    @Autowired
+    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService)
+                .passwordEncoder(encoder());
+    }
 
     @Bean
     public JwtAuthenticationFilter authenticationTokenFilterBean() {
@@ -51,7 +51,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
 
         http.cors().and().csrf().disable().
                 authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/**").authenticated()
                 .anyRequest()
                 .authenticated();
 

@@ -4,6 +4,8 @@ import com.example.demo.domain.employee.Employee;
 import com.example.demo.integration.database.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -31,18 +33,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest req, HttpServletResponse res, FilterChain chain) throws IOException, ServletException {
         String email = req.getHeader("Authorization");
-        int a=0;
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-
-            Optional<Employee> employee = employeeRepository.findByEmail(email);
-
-            if (employee.isPresent()) {
-                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(employee.get(),email);
-                authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
+            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+            if (userDetails != null) {
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,null,
+                        AuthorityUtils.createAuthorityList("ROLE_EMPLOYEES"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }else{
-            System.out.println("error");
+            System.out.println("User not found!");
         }
         chain.doFilter(req, res);
     }
