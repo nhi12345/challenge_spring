@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
 
 @Service
@@ -18,8 +20,9 @@ public class SubmissionService {
     @Autowired
     private SubmissionRepository submissionRepository;
 
-    public List<Submission> getSubmissionByDate(Timestamp timeStamp){
-        LocalDate dateRequest = timeStamp.toLocalDateTime().toLocalDate();
-        return submissionRepository.findByDateCreate(dateRequest);
+    public List<Submission> getSubmissionByDate(String time){
+        long duration = Long.parseLong(time);
+        LocalDate date = Instant.ofEpochSecond(duration).atZone(ZoneId.systemDefault()).toLocalDate();
+        return submissionRepository.findByDateCreate(date);
     }
 }
