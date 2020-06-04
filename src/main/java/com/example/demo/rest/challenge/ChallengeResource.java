@@ -27,6 +27,6 @@ public class ChallengeResource {
 
     @GetMapping
     public ChallengeDto getChallenge(){
-        return challengeMapper.toGroupDto(service.findOne());
+        return challengeMapper.toGroupDto(service.getCurrentChallenge());
     }
 }
