@@ -1,11 +1,13 @@
 package com.example.demo.domain.file;
 
 import com.cloudinary.Cloudinary;
+import com.example.demo.domain.file.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,20 +34,30 @@ public class UploadFile {
     @Qualifier("com.cloudinary.api_secret")
     String mApiSecret;
 
-    public FileResponse uploadImage(MultipartFile file){
-        Cloudinary cloudinary=new Cloudinary("cloudinary://"+mApiKey+":"+mApiSecret+"@"+mCloudName);
-        try
-        {
-            File fileResult= Files.createTempFile("temp", file.getOriginalFilename()).toFile();
+    public FileResponse uploadFile(MultipartFile file, Map map) {
+        Cloudinary cloudinary = new Cloudinary("cloudinary://" + mApiKey + ":" + mApiSecret + "@" + mCloudName);
+        try {
+            File fileResult = Files.createTempFile("temp", file.getOriginalFilename()).toFile();
             file.transferTo(fileResult);
-            Map map = new HashMap();
-            Map response=cloudinary.uploader().upload(fileResult, map);
-            JSONObject json=new JSONObject(response);
-            return new FileResponse(json.get("url").toString(),file.getOriginalFilename());
-        }
-        catch(Exception e)
-        {
-            return null;
+            Map response = cloudinary.uploader().upload(fileResult, map);
+            JSONObject json = new JSONObject(response);
+            return new FileResponse(json.get("url").toString(), file.getOriginalFilename());
+        } catch (Exception e) {
+            throw new BadRequestException("File is not valid");
         }
     }
+
+    public FileResponse uploadThumbnail(MultipartFile file) {
+        Map map = new HashMap();
+        return uploadFile(file, map);
+    }
+
+    public FileResponse uploadVideo(MultipartFile file) {
+        Map map = new HashMap();
+        map.put("resource_type", "video");
+        map.put("chunk_size", 6000000);
+        return uploadFile(file,map);
+    }
+
+
 }
