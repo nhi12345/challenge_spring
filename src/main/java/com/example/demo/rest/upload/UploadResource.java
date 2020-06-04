@@ -1,4 +1,4 @@
-package com.example.demo.rest.submission;
+package com.example.demo.rest.upload;
 
 import com.example.demo.domain.file.FileResponse;
 import com.example.demo.domain.file.UploadFile;
