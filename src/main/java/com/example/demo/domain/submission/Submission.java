@@ -27,7 +27,7 @@ public class Submission {
 
     private long duration;
 
-    private LocalDate dateCreate;
+    private LocalDate dateCreated;
 
     private Employee employee;
 

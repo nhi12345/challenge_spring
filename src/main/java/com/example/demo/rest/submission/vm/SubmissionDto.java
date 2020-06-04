@@ -21,7 +21,7 @@ public class SubmissionDto {
     @NotBlank
     private String thumbnailUrl;
 
-    @NotBlank
+    @NonNull
     private long duration;
 
 }
