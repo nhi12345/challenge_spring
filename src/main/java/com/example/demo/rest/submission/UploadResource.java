@@ -18,7 +18,7 @@ public class UploadResource {
     private UploadFile service;
 
     @PostMapping(value="/thumbnail")
-    public FileResponse post(@RequestParam(value="file", required=true) MultipartFile aFile){
-        return service.uploadImage(aFile);
+    public FileResponse post(@RequestParam(value="file", required=true) MultipartFile file){
+        return service.uploadImage(file);
     }
 }

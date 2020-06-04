@@ -36,10 +36,10 @@ public class UploadFile {
         Cloudinary cloudinary=new Cloudinary("cloudinary://"+mApiKey+":"+mApiSecret+"@"+mCloudName);
         try
         {
-            File f= Files.createTempFile("temp", file.getOriginalFilename()).toFile();
-            file.transferTo(f);
+            File fileResult= Files.createTempFile("temp", file.getOriginalFilename()).toFile();
+            file.transferTo(fileResult);
             Map map = new HashMap();
-            Map response=cloudinary.uploader().upload(f, map);
+            Map response=cloudinary.uploader().upload(fileResult, map);
             JSONObject json=new JSONObject(response);
             return new FileResponse(json.get("url").toString(),file.getOriginalFilename());
         }
