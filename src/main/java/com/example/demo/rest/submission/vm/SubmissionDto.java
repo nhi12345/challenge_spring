@@ -2,7 +2,7 @@ package com.example.demo.rest.submission.vm;
 
 import lombok.*;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
 
 @Data
 @EqualsAndHashCode(of = "id")
@@ -12,12 +12,16 @@ import java.time.LocalDate;
 public class SubmissionDto {
     private String id;
 
+    @NotBlank
     private String title;
 
+    @NotBlank
     private String videoUrl;
 
+    @NotBlank
     private String thumbnailUrl;
 
+    @NotBlank
     private long duration;
 
 }
