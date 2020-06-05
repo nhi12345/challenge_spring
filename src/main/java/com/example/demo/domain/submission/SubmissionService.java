@@ -4,6 +4,7 @@ import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
 import com.example.demo.domain.employee.Employee;
 import com.example.demo.domain.file.exception.BadRequestException;
+import com.example.demo.integration.database.EmployeeRepository;
 import com.example.demo.integration.database.SubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,15 +29,19 @@ public class SubmissionService {
     @Autowired
     private ChallengeService challengeService;
 
+    @Autowired
+    private EmployeeRepository employeeRepository;
+
     public List<Submission> getSubmissionByDate(String time){
         long duration = Long.parseLong(time);
         LocalDate date = Instant.ofEpochSecond(duration).atZone(ZoneId.systemDefault()).toLocalDate();
+        List<Submission> submissions = submissionRepository.findByDateCreated(date);
         return submissionRepository.findByDateCreated(date);
     }
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission){
         Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Employee currentEmployee = Employee.builder().email(currentEmployeeEmail).build();
+        Employee currentEmployee = employeeRepository.findByEmail(currentEmployeeEmail).get();
         Optional<Submission> submissionFilter = submissionRepository.findByChallengeAndEmployeeAndDateCreated(currentChallenge, currentEmployee, LocalDate.now());
         if(submissionFilter.isPresent()){
             throw new BadRequestException("existed");

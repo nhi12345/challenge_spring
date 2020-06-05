@@ -10,12 +10,12 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class SubmissionMapper {
+    @Mapping(source = "employee", target = "people", qualifiedByName = "toEmployeeDto")
     public abstract SubmissionDto toSubmissionDto(Submission submission);
 
     public List<SubmissionDto> toSubmissionDtos(List<Submission> submissions) {
         return submissions.parallelStream().map(this::toSubmissionDto).collect(Collectors.toList());
     }
 
-//    @Mapping(source = "body", target = "content")
     public abstract Submission toSubmission(SubmissionDto submissionDto);
 }
