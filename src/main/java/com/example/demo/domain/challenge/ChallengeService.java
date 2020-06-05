@@ -18,4 +18,8 @@ public class ChallengeService {
         return challengeRepository.findByTitle("Push up").get();
     }
 
+    public Challenge saveChallenge(Challenge challenge){
+        return challengeRepository.save(challenge);
+    }
+
 }

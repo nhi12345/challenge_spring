@@ -33,10 +33,15 @@ public class SubmissionService {
     @Autowired
     private EmployeeService employeeService;
 
+    public List<Submission> getSubmissionsByChallengeAndEmployee(String currentEmployeeEmail){
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
+        return submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
+    }
+
     public List<Submission> getSubmissionByDate(final String time){
         long duration = Long.parseLong(time);
         LocalDate date = Instant.ofEpochSecond(duration).atZone(ZoneId.systemDefault()).toLocalDate();
-        List<Submission> submissions = submissionRepository.findByDateCreated(date);
         return submissionRepository.findByDateCreated(date);
     }
 
@@ -47,6 +52,10 @@ public class SubmissionService {
         if(submissionFilter.isPresent()){
             throw new BadRequestException("existed");
         }
+        if(getSubmissionsByChallengeAndEmployee(currentEmployeeEmail) == null){
+            currentChallenge.getEmployees().add(currentEmployee);
+            challengeService.saveChallenge(currentChallenge);
+        }
         submission.setChallenge(currentChallenge);
         submission.setEmployee(currentEmployee);
         submission.setDateCreated(LocalDate.now());
@@ -54,9 +63,7 @@ public class SubmissionService {
     }
 
     public  Submission getLastSubmission(final String currentEmployeeEmail){
-        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
-        Challenge currentChallenge = challengeService.getCurrentChallenge();
-        List<Submission> submissions = submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
+        List<Submission> submissions = getSubmissionsByChallengeAndEmployee(currentEmployeeEmail);
         Submission submission = submissions.stream().max(Comparator.comparing(Submission::getDateCreated)).orElseThrow(NoSuchElementException::new);
         return submission;
     }
