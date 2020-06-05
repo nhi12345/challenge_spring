@@ -16,7 +16,9 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -51,6 +53,14 @@ public class SubmissionService {
         submission.setEmployee(currentEmployee);
         submission.setDateCreated(LocalDate.now());
         return submissionRepository.save(submission);
+    }
+
+    public  Submission getLastSubmission(final String currentEmployeeEmail){
+        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        List<Submission> submissions = submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
+        Submission submission = submissions.stream().max(Comparator.comparing(Submission::getDateCreated)).orElseThrow(NoSuchElementException::new);
+        return submission;
     }
 
 }

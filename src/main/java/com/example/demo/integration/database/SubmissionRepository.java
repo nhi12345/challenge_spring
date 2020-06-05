@@ -12,4 +12,5 @@ import java.util.Optional;
 public interface SubmissionRepository extends MongoRepository<Submission, String> {
     List<Submission> findByDateCreated(LocalDate date);
     Optional<Submission> findByChallengeAndEmployeeAndDateCreated(Challenge challenge, Employee employee, LocalDate date);
+    List<Submission> findByChallengeAndEmployee(Challenge challenge, Employee employee);
 }
