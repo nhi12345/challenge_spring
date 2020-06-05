@@ -14,10 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -62,9 +59,24 @@ public class SubmissionService {
         return submissionRepository.save(submission);
     }
 
-    public  Submission getLastSubmission(final String currentEmployeeEmail){
+    public Submission getLastSubmission(final String currentEmployeeEmail){
         List<Submission> submissions = getSubmissionsByChallengeAndEmployee(currentEmployeeEmail);
         Submission submission = submissions.stream().max(Comparator.comparing(Submission::getDateCreated)).orElseThrow(NoSuchElementException::new);
+        return submission;
+    }
+
+    public List<Submission> getAll(){
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        List <Submission> submissionsResult = new ArrayList<>();
+        for(Employee employee:currentChallenge.getEmployees()){
+            submissionsResult.add(getBestSubmissionOfUser(employee.getEmail()));
+        }
+        return submissionsResult;
+    }
+
+    public Submission getBestSubmissionOfUser(String emailEmployee){
+        List<Submission> submissions = getSubmissionsByChallengeAndEmployee(emailEmployee);
+        Submission submission = submissions.stream().max(Comparator.comparing(Submission::getDuration)).orElseThrow(NoSuchElementException::new);
         return submission;
     }
 
