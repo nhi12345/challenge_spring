@@ -52,7 +52,7 @@ public class SubmissionService {
         if(submissionFilter.isPresent()){
             throw new BadRequestException("existed");
         }
-        if(getSubmissionsByChallengeAndEmployee(currentEmployeeEmail) == null){
+        if(getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0 ){
             currentChallenge.getEmployees().add(currentEmployee);
             challengeService.saveChallenge(currentChallenge);
         }
