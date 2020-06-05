@@ -20,7 +20,7 @@ import java.util.List;
 @RestController
 @Slf4j
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/scoreboards")
+@RequestMapping("/api/v1")
 public class SubmissionResource {
 
     @Autowired
@@ -29,12 +29,12 @@ public class SubmissionResource {
     @Autowired
     private SubmissionMapper submissionMapper;
 
-    @GetMapping
+    @GetMapping("scoreboards")
     public List<SubmissionDto> getSubmissionByDate(@RequestParam("date")String time){
         return submissionMapper.toSubmissionDtos(service.getSubmissionByDate(time));
     }
 
-    @PostMapping
+    @PostMapping("publish")
     @ResponseStatus(HttpStatus.CREATED)
     public SubmissionDto addSubmission(@RequestBody @Valid SubmissionDto submissionDto){
         final String emailCurrent = SecurityUtils.getCurrentUserEmail();
