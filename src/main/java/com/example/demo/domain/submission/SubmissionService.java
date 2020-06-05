@@ -3,6 +3,7 @@ package com.example.demo.domain.submission;
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
 import com.example.demo.domain.employee.Employee;
+import com.example.demo.domain.employee.EmployeeService;
 import com.example.demo.domain.file.exception.BadRequestException;
 import com.example.demo.integration.database.EmployeeRepository;
 import com.example.demo.integration.database.SubmissionRepository;
@@ -30,9 +31,9 @@ public class SubmissionService {
     private ChallengeService challengeService;
 
     @Autowired
-    private EmployeeRepository employeeRepository;
+    private EmployeeService employeeService;
 
-    public List<Submission> getSubmissionByDate(String time){
+    public List<Submission> getSubmissionByDate(final String time){
         long duration = Long.parseLong(time);
         LocalDate date = Instant.ofEpochSecond(duration).atZone(ZoneId.systemDefault()).toLocalDate();
         List<Submission> submissions = submissionRepository.findByDateCreated(date);
@@ -41,7 +42,7 @@ public class SubmissionService {
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission){
         Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Employee currentEmployee = employeeRepository.findByEmail(currentEmployeeEmail).get();
+        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
         Optional<Submission> submissionFilter = submissionRepository.findByChallengeAndEmployeeAndDateCreated(currentChallenge, currentEmployee, LocalDate.now());
         if(submissionFilter.isPresent()){
             throw new BadRequestException("existed");
