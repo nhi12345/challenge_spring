@@ -4,6 +4,7 @@ import com.example.demo.rest.employee.vm.EmployeeDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDate;
 
 @Data
 @EqualsAndHashCode(of = "id")
@@ -24,6 +25,8 @@ public class SubmissionDto {
 
     @NonNull
     private long duration;
+
+    private LocalDate dateCreated;
 
     private EmployeeDto people;
 

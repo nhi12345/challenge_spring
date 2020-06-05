@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public abstract class SubmissionMapper {
+    @Mapping(source = "dateCreated", target = "dateCreated")
     @Mapping(source = "employee", target = "people", qualifiedByName = "toEmployeeDto")
     public abstract SubmissionDto toSubmissionDto(Submission submission);
 
