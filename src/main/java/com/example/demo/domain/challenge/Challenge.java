@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "challenges")
+@Document
 @Data
 @Builder
 @AllArgsConstructor
