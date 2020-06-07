@@ -28,7 +28,7 @@ public class ChampionService {
     @Autowired
     private SubmissionService submissionService;
 
-    private Champion addChampion (Champion champion, String submissionId){
+    public Champion addChampion (Champion champion, String submissionId){
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         if(LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())){
             throw new BadRequestException("BadRequest");
