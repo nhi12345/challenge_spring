@@ -43,4 +43,9 @@ public class SubmissionResource {
         final String emailCurrent = SecurityUtils.getCurrentUserEmail();
         return submissionMapper.toSubmissionDto(service.getLastSubmission(emailCurrent));
     }
+
+    @GetMapping("overall")
+    public List<Submission> getAllBestSubmissionOfEmployee(){
+        return service.getAll();
+    }
 }

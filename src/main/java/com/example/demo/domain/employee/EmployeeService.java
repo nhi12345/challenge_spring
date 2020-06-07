@@ -16,7 +16,7 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public Employee getCurrentEmployee(String email){
+    public Employee findEmployeeByEmail(String email){
         Optional <Employee> employee = employeeRepository.findByEmail(email);
         if(!employee.isPresent()){
             throw new NotFoundException("Employee not found");

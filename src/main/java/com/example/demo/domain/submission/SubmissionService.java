@@ -31,20 +31,21 @@ public class SubmissionService {
     private EmployeeService employeeService;
 
     public List<Submission> getSubmissionsByChallengeAndEmployee(String currentEmployeeEmail){
-        Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
+        Challenge currentChallenge = Challenge.builder().id(challengeService.getCurrentChallenge().getId()).build();
+        Employee currentEmployee = Employee.builder().email(currentEmployeeEmail).build();
         return submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
     }
 
     public List<Submission> getSubmissionByDate(final String time){
         long duration = Long.parseLong(time);
         LocalDate date = Instant.ofEpochSecond(duration).atZone(ZoneId.systemDefault()).toLocalDate();
+        List<Submission> submissions = submissionRepository.findByDateCreated(date);
         return submissionRepository.findByDateCreated(date);
     }
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission){
         Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
+        Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
         Optional<Submission> submissionFilter = submissionRepository.findByChallengeAndEmployeeAndDateCreated(currentChallenge, currentEmployee, LocalDate.now());
         if(submissionFilter.isPresent()){
             throw new BadRequestException("existed");
@@ -53,8 +54,8 @@ public class SubmissionService {
             currentChallenge.getEmployees().add(currentEmployee);
             challengeService.saveChallenge(currentChallenge);
         }
-        submission.setChallenge(currentChallenge);
-        submission.setEmployee(currentEmployee);
+        submission.setChallenge(Challenge.builder().id(currentChallenge.getId()).build());
+        submission.setEmployee(Employee.builder().email(currentEmployeeEmail).build());
         submission.setDateCreated(LocalDate.now());
         return submissionRepository.save(submission);
     }
