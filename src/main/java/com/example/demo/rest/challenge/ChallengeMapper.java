@@ -10,7 +10,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring")
 public abstract class ChallengeMapper {
-    public abstract ChallengeDto toGroupDto(Challenge challenge);
+    public abstract ChallengeDto toChallengeDto(Challenge challenge);
     @Named("mapPeopleJoining")
     public int mapPeopleJoining(List<Employee> employees) {
         return employees.size();
