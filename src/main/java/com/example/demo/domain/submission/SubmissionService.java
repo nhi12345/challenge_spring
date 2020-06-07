@@ -30,6 +30,10 @@ public class SubmissionService {
     @Autowired
     private EmployeeService employeeService;
 
+    public Optional<Submission> getSubmissionById(String id){
+        return submissionRepository.findById(id);
+    }
+
     public List<Submission> getSubmissionsByChallengeAndEmployee(String currentEmployeeEmail){
         Challenge currentChallenge = Challenge.builder().id(challengeService.getCurrentChallenge().getId()).build();
         Employee currentEmployee = Employee.builder().email(currentEmployeeEmail).build();
