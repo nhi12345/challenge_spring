@@ -32,6 +32,8 @@ public class Challenge {
 
     private LocalDate endDate;
 
+    private boolean isExpired;
+
     @DBRef(lazy = true)
     private List<Employee> employees = new ArrayList<>();
 }
