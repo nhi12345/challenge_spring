@@ -46,6 +46,6 @@ public class SubmissionResource {
 
     @GetMapping("overall")
     public List<SubmissionDto> getAllBestSubmissionOfEmployee(){
-        return submissionMapper.toSubmissionDtos(service.getAll());
+        return submissionMapper.toSubmissionDtos(service.getAllBestSubmissionOfEmployee());
     }
 }
