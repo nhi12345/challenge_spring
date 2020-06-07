@@ -1,6 +1,5 @@
 package com.example.demo.rest.challenge.vm;
 
-import com.example.demo.domain.employee.Employee;
 import lombok.*;
 
 import java.time.LocalDate;

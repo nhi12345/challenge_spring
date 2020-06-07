@@ -5,21 +5,16 @@ import com.example.demo.domain.challenge.ChallengeService;
 import com.example.demo.domain.employee.Employee;
 import com.example.demo.domain.employee.EmployeeService;
 import com.example.demo.domain.file.exception.BadRequestException;
-import com.example.demo.integration.database.EmployeeRepository;
 import com.example.demo.integration.database.SubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.util.Comparator;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +30,18 @@ public class SubmissionService {
     @Autowired
     private EmployeeService employeeService;
 
+    public List<Submission> getSubmissionsByChallengeAndEmployee(String currentEmployeeEmail){
+        Challenge currentChallenge = Challenge.builder().id(challengeService.getCurrentChallenge().getId()).build();
+        Employee currentEmployee = Employee.builder().email(currentEmployeeEmail).build();
+        return submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
+    }
+
+    public Optional<Submission> getSubmissionsByChallengeAndEmployeeThisDay(String currentEmployeeEmail){
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
+        return submissionRepository.findByChallengeAndEmployeeAndDateCreated(currentChallenge, currentEmployee, LocalDate.now());
+    }
+
     public List<Submission> getSubmissionByDate(final String time){
         long duration = Long.parseLong(time);
         LocalDate date = Instant.ofEpochSecond(duration).atZone(ZoneId.systemDefault()).toLocalDate();
@@ -43,24 +50,49 @@ public class SubmissionService {
     }
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission){
-        Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
-        Optional<Submission> submissionFilter = submissionRepository.findByChallengeAndEmployeeAndDateCreated(currentChallenge, currentEmployee, LocalDate.now());
+        Optional<Submission> submissionFilter = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail);
         if(submissionFilter.isPresent()){
             throw new BadRequestException("existed");
         }
-        submission.setChallenge(currentChallenge);
-        submission.setEmployee(currentEmployee);
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
+        if(getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0 ){
+            currentChallenge.getEmployees().add(currentEmployee);
+            challengeService.saveChallenge(currentChallenge);
+        }
+        submission.setChallenge(Challenge.builder().id(currentChallenge.getId()).build());
+        submission.setEmployee(Employee.builder().email(currentEmployeeEmail).build());
         submission.setDateCreated(LocalDate.now());
         return submissionRepository.save(submission);
     }
 
-    public  Submission getLastSubmission(final String currentEmployeeEmail){
-        Employee currentEmployee = employeeService.getCurrentEmployee(currentEmployeeEmail);
-        Challenge currentChallenge = challengeService.getCurrentChallenge();
-        List<Submission> submissions = submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
+    public Submission getLastSubmission(final String currentEmployeeEmail){
+        List<Submission> submissions = getSubmissionsByChallengeAndEmployee(currentEmployeeEmail);
         Submission submission = submissions.stream().max(Comparator.comparing(Submission::getDateCreated)).orElseThrow(NoSuchElementException::new);
         return submission;
+    }
+
+    public List<Submission> getAllBestSubmissionOfEmployee(){
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        List <Submission> submissionsResult = new ArrayList<>();
+        for(Employee employee:currentChallenge.getEmployees()){
+            submissionsResult.add(getBestSubmissionOfUser(employee.getEmail()));
+        }
+        return submissionsResult;
+    }
+
+    public Submission getBestSubmissionOfUser(String emailEmployee){
+        List<Submission> submissions = getSubmissionsByChallengeAndEmployee(emailEmployee);
+        Submission submission = submissions.stream().max(Comparator.comparing(Submission::getDuration)).orElseThrow(NoSuchElementException::new);
+        return submission;
+    }
+
+    public Submission getSubmissionOfCurrentEmployeeThisDay(String emailEmployee){
+        Optional<Submission> submission = getSubmissionsByChallengeAndEmployeeThisDay(emailEmployee);
+        if(submission.isPresent()){
+            return submission.get();
+        }
+        return null;
     }
 
 }
