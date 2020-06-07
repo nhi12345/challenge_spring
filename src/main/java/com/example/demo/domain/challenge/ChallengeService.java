@@ -14,7 +14,7 @@ public class ChallengeService {
     @Autowired
     private ChallengeRepository challengeRepository;
 
-    public Challenge findOne(){
+    public Challenge getCurrentChallenge(){
         return challengeRepository.findByTitle("Push up").get();
     }
 

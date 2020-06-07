@@ -1,7 +1,8 @@
-package com.example.demo.rest.submission;
+package com.example.demo.rest.upload;
 
 import com.example.demo.domain.file.FileResponse;
 import com.example.demo.domain.file.UploadFile;
+import com.example.demo.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,7 @@ public class UploadResource {
 
     @PostMapping(value="/thumbnail")
     public FileResponse uploadThumbnail(@RequestParam(value="file", required=true) MultipartFile file){
+        System.out.println(SecurityUtils.getCurrentUserEmail());
         return service.uploadThumbnail(file);
     }
 

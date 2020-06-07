@@ -70,5 +70,17 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                 "Geneva",
                 "GVA"
         );
+
+        addUserIfMissing("0HW",
+                "Coffey",
+                "oin Coffey",
+                "Jacqueline",
+                "join",
+                "join.edwards79@example.com",
+                "https://res.cloudinary.com/dmt5d71gv/image/upload/v1589344342/z81vcsaizmxyghfl1ktd.jpg",
+                "Senior Developer",
+                "Geneva",
+                "GVA"
+        );
     }
 }
