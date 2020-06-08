@@ -2,10 +2,13 @@ package com.example.demo.domain.champion;
 
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
+import com.example.demo.domain.champion.exception.ChampionAlreadyExistsException;
+import com.example.demo.domain.champion.exception.ChampionNotFoundException;
 import com.example.demo.domain.file.exception.BadRequestException;
 import com.example.demo.domain.file.exception.NotFoundException;
 import com.example.demo.domain.submission.Submission;
 import com.example.demo.domain.submission.SubmissionService;
+import com.example.demo.domain.submission.exception.SubmissionNotFoundException;
 import com.example.demo.integration.database.ChampionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,30 +31,29 @@ public class ChampionService {
     @Autowired
     private SubmissionService submissionService;
 
-    public Champion addChampion (Champion champion, String submissionId){
+    public Champion addChampion(Champion champion, String submissionId) {
         Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Optional<Champion> championOptional =championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
-        if(championOptional.isPresent()){
-            throw new BadRequestException("Champion is existed!");
+        Optional<Champion> championOptional = championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
+        if (championOptional.isPresent()) {
+            throw new ChampionAlreadyExistsException(currentChallenge.getId());
         }
-        if(LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())){
+        if (LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())) {
             throw new BadRequestException("Challenge is not expired");
         }
-        Optional<Submission> submission = submissionService.getSubmissionById(submissionId);
-        if(!submission.isPresent()){
-            throw new NotFoundException("not found");
-        }
+        Submission submission = submissionService.getSubmissionById(submissionId)
+                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
         champion.setChallenge(Challenge.builder().id(currentChallenge.getId()).build());
         champion.setSubmission(Submission.builder().id(submissionId).build());
         return championRepository.save(champion);
     }
 
-    public Champion getChampion(){
+    public Champion getChampion() {
         Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Optional<Champion> champion =championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
-        if(!champion.isPresent()){
-            throw new BadRequestException("Champion not found!");
-        }
-        return champion.get();
+        Champion champion = championRepository.findByChallenge(Challenge
+                .builder()
+                .id(currentChallenge.getId())
+                .build())
+                .orElseThrow(() -> new ChampionNotFoundException(currentChallenge.getId()));
+        return champion;
     }
 }
