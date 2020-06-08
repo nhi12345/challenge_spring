@@ -30,8 +30,12 @@ public class ChampionService {
 
     public Champion addChampion (Champion champion, String submissionId){
         Challenge currentChallenge = challengeService.getCurrentChallenge();
+        Optional<Champion> championOptional =championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
+        if(championOptional.isPresent()){
+            throw new BadRequestException("Champion is existed!");
+        }
         if(LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())){
-            throw new BadRequestException("BadRequest");
+            throw new BadRequestException("Challenge is not expired");
         }
         Optional<Submission> submission = submissionService.getSubmissionById(submissionId);
         if(!submission.isPresent()){
