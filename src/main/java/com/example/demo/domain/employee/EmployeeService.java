@@ -1,5 +1,6 @@
 package com.example.demo.domain.employee;
 
+import com.example.demo.domain.employee.exception.EmployeeNotFoundException;
 import com.example.demo.domain.file.exception.NotFoundException;
 import com.example.demo.integration.database.EmployeeRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,10 +18,7 @@ public class EmployeeService {
     private EmployeeRepository employeeRepository;
 
     public Employee findEmployeeByEmail(String email){
-        Optional <Employee> employee = employeeRepository.findByEmail(email);
-        if(!employee.isPresent()){
-            throw new NotFoundException("Employee not found");
-        }
-        return employee.get();
+        Employee employee = employeeRepository.findByEmail(email).orElseThrow(() -> new EmployeeNotFoundException(email));
+        return employee;
     }
 }
