@@ -17,23 +17,11 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class SubmissionMapper {
 
-    @Autowired
-    private EmployeeMapper employeeMapper;
-
-    @Autowired
-    private EmployeeService employeeService;
-
     @Mapping(source = "dateCreated", target = "dateCreated")
-    @Mapping(source = "employee", target = "people", qualifiedByName = "mapPeople")
     public abstract SubmissionDto toSubmissionDto(Submission submission);
 
     public List<SubmissionDto> toSubmissionDtos(List<Submission> submissions) {
         return submissions.parallelStream().map(this::toSubmissionDto).collect(Collectors.toList());
-    }
-
-    @Named("mapPeople")
-    public EmployeeDto mapPeople(final Employee employee) {
-        return employeeMapper.toEmployeeDto(employeeService.findEmployeeByEmail(employee.getEmail()));
     }
 
     public abstract Submission toSubmission(SubmissionDto submissionDto);

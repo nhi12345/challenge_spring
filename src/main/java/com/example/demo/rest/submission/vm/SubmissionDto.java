@@ -28,6 +28,4 @@ public class SubmissionDto {
 
     private LocalDate dateCreated;
 
-    private EmployeeDto people;
-
 }

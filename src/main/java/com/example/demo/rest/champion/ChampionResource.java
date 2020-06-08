@@ -3,6 +3,7 @@ package com.example.demo.rest.champion;
 import com.example.demo.domain.champion.Champion;
 import com.example.demo.domain.champion.ChampionService;
 import com.example.demo.rest.champion.vm.ChampionDto;
+import com.example.demo.rest.champion.vm.ChampionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,10 @@ public class ChampionResource {
     public ChampionDto addChampion(@RequestBody @Valid ChampionDto championDto,@PathVariable("submission_id") String submissionId){
         Champion champion = service.addChampion(championMapper.toChampion(championDto), submissionId);
         return championMapper.toChampionDto(champion);
+    }
+
+    @GetMapping
+    public ChampionResponse getChampion(){
+        return service.getChampion();
     }
 }

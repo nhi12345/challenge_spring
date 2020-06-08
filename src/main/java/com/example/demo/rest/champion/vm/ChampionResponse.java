@@ -6,7 +6,6 @@ import com.example.demo.rest.submission.vm.SubmissionDto;
 import lombok.*;
 
 @Data
-@EqualsAndHashCode(of = "id")
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor

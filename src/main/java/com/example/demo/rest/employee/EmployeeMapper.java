@@ -14,8 +14,16 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public abstract class EmployeeMapper {
 
+    @Autowired
+    private EmployeeService employeeService;
+
     @Named("toEmployeeDto")
     public abstract EmployeeDto toEmployeeDto(Employee employee);
+
+    @Named("mapPeople")
+    public EmployeeDto mapPeople(final Employee employee) {
+        return toEmployeeDto(employeeService.findEmployeeByEmail(employee.getEmail()));
+    }
 
     public List<EmployeeDto> toEmployeeDtos(List<Employee> employees) {
         return employees.parallelStream().map(this::toEmployeeDto).collect(Collectors.toList());
