@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document(collection = "challenges")
+@Document
 @Data
 @Builder
 @AllArgsConstructor
@@ -31,6 +31,8 @@ public class Challenge {
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    private boolean isExpired;
 
     @DBRef(lazy = true)
     private List<Employee> employees = new ArrayList<>();

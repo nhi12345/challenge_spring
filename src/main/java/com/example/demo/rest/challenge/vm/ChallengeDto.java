@@ -16,5 +16,6 @@ public class ChallengeDto {
     private String content;
     private LocalDate startDate;
     private LocalDate endDate;
+    private boolean isExpired;
     private int peopleJoining;
 }

@@ -15,7 +15,7 @@ public class ChallengeService {
     private ChallengeRepository challengeRepository;
 
     public Challenge getCurrentChallenge(){
-        return challengeRepository.findByTitle("Push up").get();
+        return challengeRepository.findAll().get(0);
     }
 
     public Challenge saveChallenge(Challenge challenge){
