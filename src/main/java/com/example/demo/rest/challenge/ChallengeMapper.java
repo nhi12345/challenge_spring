@@ -15,6 +15,7 @@ import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper(componentModel = "spring")
 public abstract class ChallengeMapper {
@@ -42,7 +43,10 @@ public abstract class ChallengeMapper {
     public ChallengeResponse toChallengeResponse(Challenge challenge,String currentEmail){
         ChallengeResponse challengeResponse = new ChallengeResponse();
         challengeResponse.setChallenge(toChallengeDto(challenge));
-        challengeResponse.setChampionData(championMapper.mapToChampionResponse(championRepository.findByChallenge(Challenge.builder().id(challenge.getId()).build()).get()));
+        Optional<Champion> champion = championRepository.findByChallenge(Challenge.builder().id(challenge.getId()).build());
+        if(champion.isPresent()){
+            challengeResponse.setChampionData(championMapper.mapToChampionResponse(champion.get()));
+        }
         challengeResponse.setJoined(submissionMapper.toSubmissionDto(submissionService.getSubmissionOfCurrentEmployeeThisDay(currentEmail)));
         return challengeResponse;
     }
