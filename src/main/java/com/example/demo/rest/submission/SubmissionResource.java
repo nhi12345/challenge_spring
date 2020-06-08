@@ -3,6 +3,7 @@ package com.example.demo.rest.submission;
 import com.example.demo.domain.submission.Submission;
 import com.example.demo.domain.submission.SubmissionService;
 import com.example.demo.rest.submission.vm.SubmissionDto;
+import com.example.demo.rest.submission.vm.SubmissionResponse;
 import com.example.demo.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,8 +27,8 @@ public class SubmissionResource {
     private SubmissionMapper submissionMapper;
 
     @GetMapping("scoreboards")
-    public List<SubmissionDto> getSubmissionByDate(@RequestParam("date")String time){
-        return submissionMapper.toSubmissionDtos(service.getSubmissionByDate(time));
+    public List<SubmissionResponse> getSubmissionByDate(@RequestParam("date")String time){
+        return submissionMapper.toSubmissionResponses(service.getSubmissionByDate(time));
     }
 
     @PostMapping("publish")
@@ -39,13 +40,13 @@ public class SubmissionResource {
     }
 
     @GetMapping("get-last-submission")
-    public SubmissionDto getLastSubmission(){
+    public SubmissionResponse getLastSubmission(){
         final String emailCurrent = SecurityUtils.getCurrentUserEmail();
-        return submissionMapper.toSubmissionDto(service.getLastSubmission(emailCurrent));
+        return submissionMapper.toSubmissionResponse(service.getLastSubmission(emailCurrent));
     }
 
     @GetMapping("overall")
-    public List<SubmissionDto> getAllBestSubmissionOfEmployee(){
-        return submissionMapper.toSubmissionDtos(service.getAllBestSubmissionOfEmployee());
+    public List<SubmissionResponse> getAllBestSubmissionOfEmployee(){
+        return submissionMapper.toSubmissionResponses(service.getAllBestSubmissionOfEmployee());
     }
 }

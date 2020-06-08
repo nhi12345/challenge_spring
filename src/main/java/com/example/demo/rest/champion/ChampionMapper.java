@@ -40,9 +40,10 @@ public abstract class ChampionMapper {
     public ChampionResponse mapToChampionResponse(Champion champion){
         ChampionResponse championResponse = new ChampionResponse();
         Submission submission = submissionRepository.findById(champion.getSubmission().getId()).get();
-        championResponse.setPerson(employeeMapper.mapPeople(employeeRepository.findByEmail(submission.getEmployee().getEmail()).get()));
+        championResponse.setPerson(employeeMapper.mapPeople(submission.getEmployee()));
         championResponse.setChampion(championMapper.toChampionDto(champion));
         championResponse.setVideo(submissionMapper.toSubmissionDto(submission));
         return championResponse;
     }
+
 }
