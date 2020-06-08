@@ -49,7 +49,7 @@ public class ChampionService {
     public Champion getChampion(){
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Optional<Champion> champion =championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
-        if(champion.isPresent()){
+        if(!champion.isPresent()){
             throw new BadRequestException("Champion not found!");
         }
         return champion.get();
