@@ -1,7 +1,10 @@
 package com.example.demo.rest.challenge;
 
+import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
 import com.example.demo.rest.challenge.vm.ChallengeDto;
+import com.example.demo.rest.challenge.vm.ChallengeResponse;
+import com.example.demo.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +25,9 @@ public class ChallengeResource {
     private ChallengeMapper challengeMapper;
 
     @GetMapping
-    public ChallengeDto getChallenge(){
-        return challengeMapper.toChallengeDto(service.getCurrentChallenge());
+    public ChallengeResponse getChallenge(){
+        Challenge challenge = service.getCurrentChallenge();
+        String currentEmail = SecurityUtils.getCurrentUserEmail();
+        return challengeMapper.toChallengeResponse(challenge,currentEmail);
     }
 }

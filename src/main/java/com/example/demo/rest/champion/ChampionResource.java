@@ -28,9 +28,5 @@ public class ChampionResource {
         Champion champion = service.addChampion(championMapper.toChampion(championDto), submissionId);
         return championMapper.toChampionDto(champion);
     }
-
-    @GetMapping
-    public ChampionResponse getChampion(){
-        return service.getChampion();
-    }
+    
 }
