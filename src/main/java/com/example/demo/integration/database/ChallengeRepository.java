@@ -7,5 +7,4 @@ import java.util.Optional;
 
 public interface ChallengeRepository extends MongoRepository<Challenge, String> {
     Optional<Challenge> findByTitle(String title);
-    Optional<Challenge> findByIsExpired(boolean status);
 }
