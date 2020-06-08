@@ -8,6 +8,7 @@ import com.example.demo.domain.file.exception.BadRequestException;
 import com.example.demo.domain.file.exception.NotFoundException;
 import com.example.demo.domain.submission.Submission;
 import com.example.demo.domain.submission.SubmissionService;
+import com.example.demo.domain.submission.exception.SubmissionNotFoundException;
 import com.example.demo.integration.database.ChampionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +40,8 @@ public class ChampionService {
         if (LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())) {
             throw new BadRequestException("Challenge is not expired");
         }
-        Optional<Submission> submission = submissionService.getSubmissionById(submissionId);
-        if (!submission.isPresent()) {
-            throw new NotFoundException("not found");
-        }
+        Submission submission = submissionService.getSubmissionById(submissionId)
+                .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
         champion.setChallenge(Challenge.builder().id(currentChallenge.getId()).build());
         champion.setSubmission(Submission.builder().id(submissionId).build());
         return championRepository.save(champion);
