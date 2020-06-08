@@ -22,8 +22,8 @@ public class ChampionResource {
     @Autowired
     private ChampionMapper championMapper;
 
-    @PostMapping
-    public ChampionDto addChampion(@RequestBody @Valid ChampionDto championDto,@RequestParam(value = "submission_id") String submissionId){
+    @PostMapping("{submission_id}")
+    public ChampionDto addChampion(@RequestBody @Valid ChampionDto championDto,@PathVariable("submission_id") String submissionId){
         Champion champion = service.addChampion(championMapper.toChampion(championDto), submissionId);
         return championMapper.toChampionDto(champion);
     }

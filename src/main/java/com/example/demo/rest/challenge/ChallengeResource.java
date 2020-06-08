@@ -23,6 +23,6 @@ public class ChallengeResource {
 
     @GetMapping
     public ChallengeDto getChallenge(){
-        return challengeMapper.toGroupDto(service.getCurrentChallenge());
+        return challengeMapper.toChallengeDto(service.getCurrentChallenge());
     }
 }
