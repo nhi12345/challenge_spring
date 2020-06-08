@@ -45,4 +45,13 @@ public class ChampionService {
         champion.setSubmission(Submission.builder().id(submissionId).build());
         return championRepository.save(champion);
     }
+
+    public Champion getChampion(){
+        Challenge currentChallenge = challengeService.getCurrentChallenge();
+        Optional<Champion> champion =championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
+        if(champion.isPresent()){
+            throw new BadRequestException("Champion not found!");
+        }
+        return champion.get();
+    }
 }
