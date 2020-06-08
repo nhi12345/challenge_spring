@@ -2,6 +2,7 @@ package com.example.demo.domain.champion;
 
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
+import com.example.demo.domain.champion.exception.ChampionAlreadyExistsException;
 import com.example.demo.domain.champion.exception.ChampionNotFoundException;
 import com.example.demo.domain.file.exception.BadRequestException;
 import com.example.demo.domain.file.exception.NotFoundException;
@@ -33,7 +34,7 @@ public class ChampionService {
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Optional<Champion> championOptional = championRepository.findByChallenge(Challenge.builder().id(currentChallenge.getId()).build());
         if (championOptional.isPresent()) {
-            throw new BadRequestException("Champion is existed!");
+            throw new ChampionAlreadyExistsException(currentChallenge.getId());
         }
         if (LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())) {
             throw new BadRequestException("Challenge is not expired");
