@@ -27,26 +27,26 @@ public class SubmissionResource {
     private SubmissionMapper submissionMapper;
 
     @GetMapping("scoreboards")
-    public List<SubmissionResponse> getSubmissionByDate(@RequestParam("date")String time){
+    public List<SubmissionResponse> getSubmissionByDate(@RequestParam("date") String time) {
         return submissionMapper.toSubmissionResponses(service.getSubmissionByDate(time));
     }
 
     @PostMapping("publish")
     @ResponseStatus(HttpStatus.CREATED)
-    public SubmissionDto addSubmission(@RequestBody @Valid SubmissionDto submissionDto){
+    public SubmissionDto addSubmission(@RequestBody @Valid SubmissionDto submissionDto) {
         final String emailCurrent = SecurityUtils.getCurrentUserEmail();
-        final Submission submission= service.addSubmission(emailCurrent,submissionMapper.toSubmission(submissionDto));
+        final Submission submission = service.addSubmission(emailCurrent, submissionMapper.toSubmission(submissionDto));
         return submissionMapper.toSubmissionDto(submission);
     }
 
     @GetMapping("get-last-submission")
-    public SubmissionResponse getLastSubmission(){
+    public SubmissionResponse getLastSubmission() {
         final String emailCurrent = SecurityUtils.getCurrentUserEmail();
         return submissionMapper.toSubmissionResponse(service.getLastSubmission(emailCurrent));
     }
 
     @GetMapping("overall")
-    public List<SubmissionResponse> getAllBestSubmissionOfEmployee(){
+    public List<SubmissionResponse> getAllBestSubmissionOfEmployee() {
         return submissionMapper.toSubmissionResponses(service.getAllBestSubmissionOfEmployee());
     }
 }

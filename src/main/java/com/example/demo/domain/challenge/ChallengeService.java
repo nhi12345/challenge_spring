@@ -17,15 +17,15 @@ public class ChallengeService {
     @Autowired
     private ChallengeRepository challengeRepository;
 
-    public Challenge getCurrentChallenge(){
+    public Challenge getCurrentChallenge() {
         return challengeRepository.findByTitle("Push up").get();
     }
 
-    public Challenge saveChallenge(Challenge challenge){
+    public Challenge saveChallenge(Challenge challenge) {
         return challengeRepository.save(challenge);
     }
 
-    public boolean isExpired(Challenge challenge){
+    public boolean isExpired(Challenge challenge) {
         if (LocalDate.now().isAfter(challenge.getStartDate()) && LocalDate.now().isBefore(challenge.getEndDate())) {
             return false;
         }

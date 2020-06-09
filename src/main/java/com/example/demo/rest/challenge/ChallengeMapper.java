@@ -40,11 +40,11 @@ public abstract class ChallengeMapper {
         return employees.size();
     }
 
-    public ChallengeResponse toChallengeResponse(Challenge challenge,String currentEmail){
+    public ChallengeResponse toChallengeResponse(Challenge challenge, String currentEmail) {
         ChallengeResponse challengeResponse = new ChallengeResponse();
         challengeResponse.setChallenge(toChallengeDto(challenge));
         Optional<Champion> champion = championRepository.findByChallenge(Challenge.builder().id(challenge.getId()).build());
-        if(champion.isPresent()){
+        if (champion.isPresent()) {
             challengeResponse.setChampionData(championMapper.mapToChampionResponse(champion.get()));
         }
         challengeResponse.setJoined(submissionMapper.toSubmissionDto(submissionService.getSubmissionOfCurrentEmployeeThisDay(currentEmail)));

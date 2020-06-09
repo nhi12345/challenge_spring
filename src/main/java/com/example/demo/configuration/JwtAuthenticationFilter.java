@@ -31,11 +31,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
             if (userDetails != null) {
-                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails,null,
+                Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, null,
                         AuthorityUtils.createAuthorityList("ROLE_EMPLOYEES"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        }else{
+        } else {
             System.out.println("User not found!");
         }
         chain.doFilter(req, res);

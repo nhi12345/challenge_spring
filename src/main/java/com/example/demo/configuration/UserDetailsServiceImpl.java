@@ -24,10 +24,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
         Optional<Employee> employee = employeeRepository.findByEmail(email);
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        if(employee.isPresent()){
+        if (employee.isPresent()) {
             return new org.springframework.security.core.userdetails.User(
-                    email,email, grantedAuthorities);
+                    email, email, grantedAuthorities);
         }
         return null;
-        }
+    }
 }
