@@ -35,9 +35,9 @@ public class SubmissionService {
         return submissionRepository.findById(id);
     }
 
-    public List<Submission> getSubmissionsByChallengeAndEmployee(String currentEmployeeEmail) {
+    public List<Submission> getSubmissionsByChallengeAndEmployee(String employeeEmail) {
         Challenge currentChallenge = Challenge.builder().id(challengeService.getCurrentChallenge().getId()).build();
-        Employee currentEmployee = Employee.builder().email(currentEmployeeEmail).build();
+        Employee currentEmployee = Employee.builder().email(employeeEmail).build();
         return submissionRepository.findByChallengeAndEmployee(currentChallenge, currentEmployee);
     }
 
@@ -99,8 +99,8 @@ public class SubmissionService {
         return submission;
     }
 
-    public Submission getSubmissionOfCurrentEmployeeThisDay(String emailEmployee) {
-        Optional<Submission> submission = getSubmissionsByChallengeAndEmployeeThisDay(emailEmployee);
+    public Submission getSubmissionOfCurrentEmployeeThisDay(String currentEmployeeEmail) {
+        Optional<Submission> submission = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail);
         if (submission.isPresent()) {
             return submission.get();
         }
