@@ -25,7 +25,7 @@ public class ChallengeService {
         return challengeRepository.save(challenge);
     }
 
-    public boolean challengeIsExpired(Challenge challenge){
+    public boolean isExpired(Challenge challenge){
         if (LocalDate.now().isBefore(challenge.getStartDate()) || LocalDate.now().isAfter(challenge.getEndDate())) {
             throw new ChallengeNotExpiredException();
         }

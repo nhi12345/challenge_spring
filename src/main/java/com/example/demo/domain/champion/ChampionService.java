@@ -36,8 +36,8 @@ public class ChampionService {
         if (championOptional.isPresent()) {
             throw new ChampionAlreadyExistsException(currentChallenge.getId());
         }
-        if (LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())) {
-            throw new ChallengeNotExpiredException();
+        if(!challengeService.isExpired(currentChallenge)){
+            return null;
         }
         Submission submission = submissionService.getSubmissionById(submissionId)
                 .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
