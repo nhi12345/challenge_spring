@@ -26,8 +26,8 @@ public class ChallengeService {
     }
 
     public boolean isExpired(Challenge challenge){
-        if (LocalDate.now().isAfter(challenge.getStartDate()) || LocalDate.now().isBefore(challenge.getEndDate())) {
-            throw new ChallengeNotExpiredException();
+        if (LocalDate.now().isAfter(challenge.getStartDate()) && LocalDate.now().isBefore(challenge.getEndDate())) {
+            return false;
         }
         return true;
     }

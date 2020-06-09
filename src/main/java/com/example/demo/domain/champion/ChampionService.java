@@ -37,7 +37,7 @@ public class ChampionService {
             throw new ChampionAlreadyExistsException(currentChallenge.getId());
         }
         if(!challengeService.isExpired(currentChallenge)){
-            return null;
+            throw new ChallengeNotExpiredException();
         }
         Submission submission = submissionService.getSubmissionById(submissionId)
                 .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
