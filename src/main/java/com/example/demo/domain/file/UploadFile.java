@@ -1,7 +1,7 @@
 package com.example.demo.domain.file;
 
 import com.cloudinary.Cloudinary;
-import com.example.demo.domain.file.exception.BadRequestException;
+import com.example.demo.domain.file.exception.FileInvalidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
@@ -41,7 +41,7 @@ public class UploadFile {
             JSONObject json = new JSONObject(response);
             return new FileResponse(json.get("url").toString(), file.getOriginalFilename());
         } catch (Exception e) {
-            throw new BadRequestException("File is not valid");
+            throw new FileInvalidException("File is not valid");
         }
     }
 
