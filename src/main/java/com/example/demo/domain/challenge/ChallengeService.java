@@ -26,10 +26,10 @@ public class ChallengeService {
     }
 
     public boolean isExpired(Challenge challenge){
-        if (LocalDate.now().isBefore(challenge.getStartDate()) || LocalDate.now().isAfter(challenge.getEndDate())) {
+        if (LocalDate.now().isAfter(challenge.getStartDate()) || LocalDate.now().isBefore(challenge.getEndDate())) {
             throw new ChallengeNotExpiredException();
         }
-        return false;
+        return true;
     }
 
 }
