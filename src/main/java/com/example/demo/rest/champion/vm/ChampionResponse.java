@@ -13,7 +13,7 @@ public class ChampionResponse {
 
     private ChampionDto champion;
 
-    private EmployeeDto person;
+    private EmployeeDto people;
 
     private SubmissionDto video;
 
