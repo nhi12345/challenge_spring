@@ -2,6 +2,7 @@ package com.example.demo.domain.submission;
 
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
+import com.example.demo.domain.challenge.exception.ChallengeExpiredException;
 import com.example.demo.domain.employee.Employee;
 import com.example.demo.domain.employee.EmployeeService;
 import com.example.demo.domain.submission.exception.SubmissionAlreadyExistsException;
@@ -60,8 +61,8 @@ public class SubmissionService {
         }
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
-        if(!challengeService.isExpired(currentChallenge)){
-            return null;
+        if(challengeService.isExpired(currentChallenge)){
+            throw new ChallengeExpiredException();
         }
         if (getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0) {
             currentChallenge.getEmployees().add(currentEmployee);
