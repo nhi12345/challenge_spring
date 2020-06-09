@@ -60,6 +60,9 @@ public class SubmissionService {
         }
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
+        if(!challengeService.isExpired(currentChallenge)){
+            return null;
+        }
         if (getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0) {
             currentChallenge.getEmployees().add(currentEmployee);
             challengeService.saveChallenge(currentChallenge);
