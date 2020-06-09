@@ -5,6 +5,7 @@ import com.example.demo.domain.challenge.ChallengeService;
 import com.example.demo.domain.employee.Employee;
 import com.example.demo.domain.employee.EmployeeService;
 import com.example.demo.domain.file.exception.FileInvalidException;
+import com.example.demo.domain.submission.exception.SubmissionAlreadyExistsException;
 import com.example.demo.integration.database.SubmissionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,10 +55,7 @@ public class SubmissionService {
     }
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission){
-        Optional<Submission> submissionFilter = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail);
-        if(submissionFilter.isPresent()){
-            throw new FileInvalidException("existed");
-        }
+        Submission submissionThisDay = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail).orElseThrow(() -> new SubmissionAlreadyExistsException());
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
         if(getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0 ){
