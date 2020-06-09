@@ -54,8 +54,10 @@ public class SubmissionService {
     }
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission) {
-        Submission submissionThisDay = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail)
-                                        .orElseThrow(() -> new SubmissionAlreadyExistsException());
+        Optional<Submission> submissionThisDay = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail);
+        if(submissionThisDay.isPresent()){
+            throw new SubmissionAlreadyExistsException();
+        }
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
         if (getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0) {
