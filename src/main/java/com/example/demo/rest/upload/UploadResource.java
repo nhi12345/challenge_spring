@@ -18,14 +18,14 @@ public class UploadResource {
     @Autowired
     private UploadFile service;
 
-    @PostMapping(value="/thumbnail")
-    public FileResponse uploadThumbnail(@RequestParam(value="file", required=true) MultipartFile file){
+    @PostMapping(value = "/thumbnail")
+    public FileResponse uploadThumbnail(@RequestParam(value = "file", required = true) MultipartFile file) {
         System.out.println(SecurityUtils.getCurrentUserEmail());
         return service.uploadThumbnail(file);
     }
 
     @PostMapping(value = "video")
-    public FileResponse uploadVideo(@RequestParam(value="file", required=true) MultipartFile file){
+    public FileResponse uploadVideo(@RequestParam(value = "file", required = true) MultipartFile file) {
         return service.uploadVideo(file);
     }
 }

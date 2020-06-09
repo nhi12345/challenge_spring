@@ -31,7 +31,7 @@ public abstract class SubmissionMapper {
 
     public abstract Submission toSubmission(SubmissionDto submissionDto);
 
-    public SubmissionResponse toSubmissionResponse(Submission submission){
+    public SubmissionResponse toSubmissionResponse(Submission submission) {
         SubmissionResponse submissionResponse = new SubmissionResponse();
         submissionResponse.setVideo(toSubmissionDto(submission));
         submissionResponse.setPeople(employeeMapper.mapPeople(submission.getEmployee()));

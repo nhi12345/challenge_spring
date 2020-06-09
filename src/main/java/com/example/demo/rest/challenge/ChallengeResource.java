@@ -25,9 +25,9 @@ public class ChallengeResource {
     private ChallengeMapper challengeMapper;
 
     @GetMapping
-    public ChallengeResponse getChallenge(){
+    public ChallengeResponse getChallenge() {
         Challenge challenge = service.getCurrentChallenge();
         String currentEmail = SecurityUtils.getCurrentUserEmail();
-        return challengeMapper.toChallengeResponse(challenge,currentEmail);
+        return challengeMapper.toChallengeResponse(challenge, currentEmail);
     }
 }

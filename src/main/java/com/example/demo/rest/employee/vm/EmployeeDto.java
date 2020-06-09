@@ -12,7 +12,6 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmployeeDto {
-
     private String id;
     private String trigram;
     private String familyName;

@@ -56,12 +56,12 @@ public class SubmissionService {
 
     public Submission addSubmission(final String currentEmployeeEmail, Submission submission) {
         Optional<Submission> submissionThisDay = getSubmissionsByChallengeAndEmployeeThisDay(currentEmployeeEmail);
-        if(submissionThisDay.isPresent()){
+        if (submissionThisDay.isPresent()) {
             throw new SubmissionAlreadyExistsException();
         }
         Challenge currentChallenge = challengeService.getCurrentChallenge();
         Employee currentEmployee = employeeService.findEmployeeByEmail(currentEmployeeEmail);
-        if(challengeService.isExpired(currentChallenge)){
+        if (challengeService.isExpired(currentChallenge)) {
             throw new ChallengeExpiredException();
         }
         if (getSubmissionsByChallengeAndEmployee(currentEmployeeEmail).size() == 0) {
@@ -77,8 +77,8 @@ public class SubmissionService {
     public Submission getLastSubmission(final String currentEmployeeEmail) {
         List<Submission> submissions = getSubmissionsByChallengeAndEmployee(currentEmployeeEmail);
         Submission submission = submissions.stream()
-                                            .max(Comparator.comparing(Submission::getDateCreated))
-                                            .orElseThrow(NoSuchElementException::new);
+                .max(Comparator.comparing(Submission::getDateCreated))
+                .orElseThrow(NoSuchElementException::new);
         return submission;
     }
 
@@ -94,8 +94,8 @@ public class SubmissionService {
     public Submission getBestSubmissionOfUser(String emailEmployee) {
         List<Submission> submissions = getSubmissionsByChallengeAndEmployee(emailEmployee);
         Submission submission = submissions.stream()
-                                            .max(Comparator.comparing(Submission::getDuration))
-                                            .orElseThrow(NoSuchElementException::new);
+                .max(Comparator.comparing(Submission::getDuration))
+                .orElseThrow(NoSuchElementException::new);
         return submission;
     }
 

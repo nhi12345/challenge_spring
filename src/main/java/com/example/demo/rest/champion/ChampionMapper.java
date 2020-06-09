@@ -37,7 +37,7 @@ public abstract class ChampionMapper {
 
     public abstract Champion toChampion(ChampionDto championDto);
 
-    public ChampionResponse mapToChampionResponse(Champion champion){
+    public ChampionResponse mapToChampionResponse(Champion champion) {
         ChampionResponse championResponse = new ChampionResponse();
         Submission submission = submissionRepository.findById(champion.getSubmission().getId()).get();
         championResponse.setPerson(employeeMapper.mapPeople(submission.getEmployee()));

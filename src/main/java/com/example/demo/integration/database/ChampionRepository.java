@@ -6,6 +6,6 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.Optional;
 
-public interface ChampionRepository extends MongoRepository<Champion,String> {
+public interface ChampionRepository extends MongoRepository<Champion, String> {
     Optional<Champion> findByChallenge(Challenge challenge);
 }
