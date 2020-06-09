@@ -2,7 +2,7 @@ package com.example.demo.domain.champion;
 
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
-import com.example.demo.domain.champion.exception.ChallengeNotExpiredException;
+import com.example.demo.domain.challenge.exception.ChallengeNotExpiredException;
 import com.example.demo.domain.champion.exception.ChampionAlreadyExistsException;
 import com.example.demo.domain.champion.exception.ChampionNotFoundException;
 import com.example.demo.domain.submission.Submission;
@@ -36,8 +36,8 @@ public class ChampionService {
         if (championOptional.isPresent()) {
             throw new ChampionAlreadyExistsException(currentChallenge.getId());
         }
-        if (LocalDate.now().isBefore(currentChallenge.getStartDate()) || LocalDate.now().isAfter(currentChallenge.getEndDate())) {
-            throw new ChallengeNotExpiredException();
+        if(!challengeService.isExpired(currentChallenge)){
+            return null;
         }
         Submission submission = submissionService.getSubmissionById(submissionId)
                 .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
