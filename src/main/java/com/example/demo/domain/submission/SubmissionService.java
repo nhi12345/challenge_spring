@@ -4,7 +4,6 @@ import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
 import com.example.demo.domain.employee.Employee;
 import com.example.demo.domain.employee.EmployeeService;
-import com.example.demo.domain.file.exception.FileInvalidException;
 import com.example.demo.domain.submission.exception.SubmissionAlreadyExistsException;
 import com.example.demo.integration.database.SubmissionRepository;
 import lombok.RequiredArgsConstructor;
