@@ -27,4 +27,4 @@ Note: you can also start your app using foreman to execute the Procfile. [Read m
 Go to http://localhost:8080 and test it out by creating a new record.
 
 # Connect to database Mongodb
-Go to application.properties change Your `spring.datasource.username`, `spring.datasource.password` to connect Your database Mongodb
+Go to application.properties change Your `spring.data.mongodb.username`, `spring.data.mongodb.password` to connect Your database Mongodb
