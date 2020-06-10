@@ -47,6 +47,7 @@ public class UploadFile {
 
     public FileResponse uploadThumbnail(MultipartFile file) {
         Map map = new HashMap();
+        map.put("resource_type", "image");
         return uploadFile(file, map);
     }
 
