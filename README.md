@@ -17,7 +17,7 @@ Let's run the app locally first to test that it all works. You must have a Mongo
     \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
     '  |____| .__|_| |_|_| |_\__, | / / / /
     =========|_|====s==========|___/=/_/_/_/
-    :: Spring Boot ::        (v2.1.8.RELEASE)
+    :: Spring Boot ::        (v2.3.0.RELEASE)
 
 
 # Start Your App
