@@ -47,8 +47,7 @@ public class ChampionService {
 
     public Champion getChampion() {
         Challenge currentChallenge = challengeService.getCurrentChallenge();
-        Champion champion = championRepository.findByChallenge(Challenge
-                .builder()
+        Champion champion = championRepository.findByChallenge(Challenge.builder()
                 .id(currentChallenge.getId())
                 .build())
                 .orElseThrow(() -> new ChampionNotFoundException(currentChallenge.getId()));
