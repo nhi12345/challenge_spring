@@ -21,6 +21,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
     @Qualifier("userDetail")
     private UserDetailsService userDetailsService;
 
+    @Autowired
+    private MyBasicAuthenticationEntryPoint authenticationEntryPoint;
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -38,8 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements W
         http.cors().and().csrf().disable().
                 authorizeRequests()
                 .antMatchers("/**").authenticated()
-                .anyRequest()
-                .authenticated();
+                .and()
+                .httpBasic()
+                .authenticationEntryPoint(authenticationEntryPoint);
 
         http
                 .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
