@@ -20,48 +20,36 @@ import java.util.Set;
 @EqualsAndHashCode(of = "id")
 public class
 Employee {
-    //GD id
     @Id
     private String id;
 
-    //GD Custom schemas
     @Indexed
     private String trigram;
 
-    //GD name.familyName
     @Indexed
     private String familyName;
 
-    //GD name.fullName
     @Indexed
     private String fullName;
 
-    //GD name.givenName
     private String givenName;
 
-    //GD Custom schemas
     @Indexed
     private String nickname;
 
-    //GD primaryEmail
     @Indexed(unique = true)
     private String email;
 
     private String pictureUrl;
 
-    //GD organizations.title
     private String title;
 
-    //GD organizations.department
     private String location;
 
-    //Projector ex.location_dsp
     private String locationCode;
 
-    //GD phones
     private Set<Phone> phones = new HashSet<>();
 
-    //GD addresses
     private Set<Address> addresses = new HashSet<>();
 
     @Transient

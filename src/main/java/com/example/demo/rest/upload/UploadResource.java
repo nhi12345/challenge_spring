@@ -20,7 +20,6 @@ public class UploadResource {
 
     @PostMapping(value = "/thumbnail")
     public FileResponse uploadThumbnail(@RequestParam(value = "file", required = true) MultipartFile file) {
-        System.out.println(SecurityUtils.getCurrentUserEmail());
         return service.uploadThumbnail(file);
     }
 

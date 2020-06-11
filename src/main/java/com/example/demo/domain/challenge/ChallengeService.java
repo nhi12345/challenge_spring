@@ -1,6 +1,5 @@
 package com.example.demo.domain.challenge;
 
-import com.example.demo.domain.challenge.exception.ChallengeNotExpiredException;
 import com.example.demo.integration.database.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

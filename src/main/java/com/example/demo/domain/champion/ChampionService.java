@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.Optional;
 
 @Service
@@ -39,7 +38,7 @@ public class ChampionService {
         if (!challengeService.isExpired(currentChallenge)) {
             throw new ChallengeNotExpiredException();
         }
-        Submission submission = submissionService.getSubmissionById(submissionId)
+        submissionService.getSubmissionById(submissionId)
                 .orElseThrow(() -> new SubmissionNotFoundException(submissionId));
         champion.setChallenge(Challenge.builder().id(currentChallenge.getId()).build());
         champion.setSubmission(Submission.builder().id(submissionId).build());

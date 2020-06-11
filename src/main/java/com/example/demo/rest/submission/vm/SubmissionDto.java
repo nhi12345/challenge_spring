@@ -1,6 +1,5 @@
 package com.example.demo.rest.submission.vm;
 
-import com.example.demo.rest.employee.vm.EmployeeDto;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
