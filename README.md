@@ -26,5 +26,8 @@ Note: you can also start your app using foreman to execute the Procfile. [Read m
 # Test it
 Go to http://localhost:8080 and test it out by creating a new record.
 
+# Add Authentication
+Add email of employee into Authorization to call request
+
 # Connect to database Mongodb
 Go to application.properties change Your `spring.data.mongodb.username`, `spring.data.mongodb.password` to connect Your database Mongodb
