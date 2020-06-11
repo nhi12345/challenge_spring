@@ -35,8 +35,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
                         AuthorityUtils.createAuthorityList("ROLE_EMPLOYEES"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } else {
-            System.out.println("User not found!");
         }
         chain.doFilter(req, res);
     }
