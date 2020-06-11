@@ -2,7 +2,6 @@ package com.example.demo.rest.employee;
 
 import com.example.demo.domain.employee.Employee;
 import com.example.demo.domain.employee.EmployeeService;
-import com.example.demo.integration.database.EmployeeRepository;
 import com.example.demo.rest.employee.vm.EmployeeDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Named;

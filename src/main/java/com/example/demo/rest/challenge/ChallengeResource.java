@@ -2,7 +2,6 @@ package com.example.demo.rest.challenge;
 
 import com.example.demo.domain.challenge.Challenge;
 import com.example.demo.domain.challenge.ChallengeService;
-import com.example.demo.rest.challenge.vm.ChallengeDto;
 import com.example.demo.rest.challenge.vm.ChallengeResponse;
 import com.example.demo.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;

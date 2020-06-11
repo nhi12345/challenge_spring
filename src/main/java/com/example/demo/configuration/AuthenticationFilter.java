@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class AuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private EmployeeRepository employeeRepository;
@@ -35,8 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         AuthorityUtils.createAuthorityList("ROLE_EMPLOYEES"));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
-        } else {
-            System.out.println("User not found!");
         }
         chain.doFilter(req, res);
     }

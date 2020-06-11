@@ -1,16 +1,11 @@
 package com.example.demo.rest.submission;
 
-import com.example.demo.domain.employee.Employee;
-import com.example.demo.domain.employee.EmployeeService;
 import com.example.demo.domain.submission.Submission;
-import com.example.demo.rest.champion.vm.ChampionResponse;
 import com.example.demo.rest.employee.EmployeeMapper;
-import com.example.demo.rest.employee.vm.EmployeeDto;
 import com.example.demo.rest.submission.vm.SubmissionDto;
 import com.example.demo.rest.submission.vm.SubmissionResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.Named;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
